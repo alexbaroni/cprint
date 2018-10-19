@@ -15,7 +15,9 @@ set(CPRINT_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_subdirectory(ext)
 
 add_library(cprint INTERFACE)
-target_sources(cprint INTERFACE ${CPRINT_INCLUDE_PATH}/cprint/cprint.hpp)
+target_sources(cprint INTERFACE
+    ${CPRINT_INCLUDE_PATH}/cprint/cprint.hpp
+    ${CPRINT_INCLUDE_PATH}/cprint/formatter.hpp)
 target_link_libraries(cprint INTERFACE cmcstl2)
 target_include_directories(cprint INTERFACE ${CPRINT_INCLUDE_PATH} INTERFACE ${CMCSTL2_INCLUDE_PATH})
 

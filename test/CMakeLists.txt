@@ -12,6 +12,8 @@ add_library(catch2 INTERFACE)
 target_sources(catch2 INTERFACE ${CATCH_INCLUDE_PATH}/catch.hpp)
 target_include_directories(catch2 INTERFACE ${CATCH_INCLUDE_PATH})
 
+#set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
 enable_testing()
 add_subdirectory(vector)
 

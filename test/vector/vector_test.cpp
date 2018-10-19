@@ -6,6 +6,8 @@
 
 TEST_CASE( "printing vector of streamable types on char stream", "[vector][char]" ) {
   using namespace std::string_literals;
+  using namespace cprint;
+
   std::ostringstream os;
 
   SECTION("printing an empty vector") {
@@ -26,6 +28,9 @@ TEST_CASE( "printing vector of streamable types on char stream", "[vector][char]
 }
 
 TEST_CASE( "printing vector of streamable types on wchar_t stream", "[vector][wchar_t]" ) {
+  using namespace std::string_literals;
+  using namespace cprint;
+
   std::wostringstream wos;
 
   SECTION("printing an empty vector") {
@@ -34,13 +39,13 @@ TEST_CASE( "printing vector of streamable types on wchar_t stream", "[vector][wc
     REQUIRE(wos.str() == L"[]");
   }
   SECTION("printing a vector with some elements") {
-    std::vector<int> v{1, 2, 3, 4, 5};
+    std::vector v{1, 2, 3, 4, 5};
     print(v, wos);
     REQUIRE(wos.str() == L"[1, 2, 3, 4, 5]");
   }
-//  SECTION("printing a vector of strings") {
-//    std::vector<std::wstring> v{"hello"s, "world"s};
-//    print(v, wos);
-//    REQUIRE(wos.str() == L"[\"hello\", \"world\"]");
-//  }
+  SECTION("printing a vector of strings") {
+    std::vector v{L"hello"s, L"world"s};
+    print(v, wos);
+    REQUIRE(wos.str() == L"[\"hello\", \"world\"]");
+  }
 }
