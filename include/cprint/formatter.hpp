@@ -28,7 +28,7 @@ namespace cprint {
   };
 
   template<>
-  struct formatter<const char* /*const&*/, char> {
+  struct formatter<const char*, char> {
     void prefix(std::basic_ostream<char>& os) const { os << "\""; }
     void separator(std::basic_ostream<char>&) const {}
     void suffix(std::basic_ostream<char>& os) const { os << "\""; }
@@ -115,7 +115,7 @@ namespace cprint {
   };
 
   template<>
-  struct formatter<const wchar_t* /*const&*/, wchar_t> {
+  struct formatter<const wchar_t*, wchar_t> {
     void prefix(std::basic_ostream<wchar_t>& os) const { os << L"\""; }
     void separator(std::basic_ostream<wchar_t>&) const {}
     void suffix(std::basic_ostream<wchar_t>& os) const { os << L"\""; }

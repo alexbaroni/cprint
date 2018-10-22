@@ -103,9 +103,9 @@ namespace cprint {
   {
     fmt.prefix(os);
     if constexpr(sizeof...(T) > 0) {
-      print(std::get<0>(t), os, formatter<decltype(std::get<0>(t)),CharT>{});
-      std::apply([&os, &fmt] (auto&, auto& ...x) {
-        (..., (fmt.separator(os), print(x, os, formatter<decltype(x),CharT>{})));
+      std::apply([&os, &fmt] (auto x, auto... xs) {
+        print(x, os, formatter<decltype(x),CharT>{});
+        (..., (fmt.separator(os), print(xs, os, formatter<decltype(xs),CharT>{})));
       }, t);
     }
     fmt.suffix(os);
