@@ -39,6 +39,11 @@ TEST_CASE( "printing vector of streamable types on char stream", "[vector][char]
     print(v, os);
     REQUIRE(os.str() == "[\"hello\", \"world\"]");
   }
+  SECTION("printing a vector of char") {
+    std::vector v{'x', 'y', 'w', 'z'};
+    print(v, os);
+    REQUIRE(os.str() == "[x, y, w, z]");
+  }
   SECTION("printing a vector of pairs") {
     std::vector v{std::pair{1, 2}, std::pair{3, 4}};
     print(v, os);
@@ -89,6 +94,11 @@ TEST_CASE( "printing vector of streamable types on wchar_t stream", "[vector][wc
     std::vector v{L"hello", L"world"};
     print(v, wos);
     REQUIRE(wos.str() == L"[\"hello\", \"world\"]");
+  }
+  SECTION("printing a vector of char") {
+    std::vector v{L'x', L'y', L'w', L'z'};
+    print(v, wos);
+    REQUIRE(wos.str() == L"[x, y, w, z]");
   }
   SECTION("printing a vector of pairs") {
     std::vector v{std::pair{1, 2}, std::pair{3, 4}};
