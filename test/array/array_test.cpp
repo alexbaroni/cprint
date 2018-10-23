@@ -11,7 +11,7 @@ TEST_CASE( "printing array of streamable types on char stream", "[array][char]" 
   using namespace cprint;
 
   std::ostringstream os;
-  SECTION("printing an empty vector") {
+  SECTION("printing an empty array") {
     std::array<int, 0> v{};
     print(v, os);
     REQUIRE(os.str() == "[]");
@@ -72,7 +72,7 @@ TEST_CASE( "printing array of streamable types on wchar_t stream", "[array][wcha
   using namespace cprint;
 
   std::wostringstream wos;
-  SECTION("printing an empty vector") {
+  SECTION("printing an empty array") {
     std::array<int, 0> v{};
     print(v, wos);
     REQUIRE(wos.str() == L"[]");
