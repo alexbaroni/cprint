@@ -27,6 +27,15 @@ TEST_CASE( "printing c array of streamable types on char stream", "[array][char]
     print(a, os);
     REQUIRE(os.str() == "[\"hello\", \"world\"]");
   }
+  SECTION("printing a bidimensional c array of ints") {
+    int a[3][5] = {
+        { 71, 72, 73, 74, 75 },
+        { 81, 82, 83, 84, 85 },
+        { 91, 92, 93, 94, 95 }
+    };
+    print(a, os);
+    REQUIRE(os.str() == "[[71, 72, 73, 74, 75], [81, 82, 83, 84, 85], [91, 92, 93, 94, 95]]");
+  }
 }
 
 TEST_CASE( "printing c array of streamable types on wchar_t stream", "[array][wchar_t]" )
@@ -53,5 +62,14 @@ TEST_CASE( "printing c array of streamable types on wchar_t stream", "[array][wc
     wchar_t a[2][6]={{L'h',L'e',L'l',L'l',L'o',L'\0'}, {L'w',L'o',L'r',L'l',L'd',L'\0'}};
     print(a, wos);
     REQUIRE(wos.str() == L"[\"hello\", \"world\"]");
+  }
+  SECTION("printing a bidimensional c array of ints") {
+    int a[3][5] = {
+        { 71, 72, 73, 74, 75 },
+        { 81, 82, 83, 84, 85 },
+        { 91, 92, 93, 94, 95 }
+    };
+    print(a, wos);
+    REQUIRE(wos.str() == L"[[71, 72, 73, 74, 75], [81, 82, 83, 84, 85], [91, 92, 93, 94, 95]]");
   }
 }
