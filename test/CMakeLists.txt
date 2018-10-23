@@ -17,5 +17,6 @@ target_include_directories(catch2 INTERFACE ${CATCH_INCLUDE_PATH})
 enable_testing()
 add_subdirectory(array)
 add_subdirectory(vector)
+add_subdirectory(string)
 
 #ParseAndAddCatchTests(cprint_test)
