@@ -18,5 +18,6 @@ enable_testing()
 add_subdirectory(array)
 add_subdirectory(vector)
 add_subdirectory(string)
+add_subdirectory(span)
 
 #ParseAndAddCatchTests(cprint_test)

@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <tuple>
 #include <utility>
+#include "stl2/detail/span.hpp"
 
 namespace cprint {
   template<typename T, typename CharT, typename Traits = std::char_traits<CharT>>

@@ -11,8 +11,6 @@
 #include "concepts.hpp"
 #include "formatter.hpp"
 
-#include <iostream>
-
 namespace cprint {
   namespace concepts = std::experimental::ranges;
   template <class T>
