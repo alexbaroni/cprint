@@ -19,5 +19,6 @@ add_subdirectory(array)
 add_subdirectory(vector)
 add_subdirectory(string)
 add_subdirectory(span)
+add_subdirectory(pair)
 
 #ParseAndAddCatchTests(cprint_test)
