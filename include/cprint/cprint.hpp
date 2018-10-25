@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <utility>
 #include "stl2/concepts.hpp"
+#include "stl2/detail/span.hpp"
 #include "concepts.hpp"
 #include "formatter.hpp"
 
@@ -53,6 +54,17 @@ namespace cprint {
   {
     fmt.prefix(os);
     os << t;
+    fmt.suffix(os);
+  }
+
+  template <CharSpan S,
+            Char CharT,
+            CharTraits Traits = std::char_traits<CharT>,
+            Formatter<CharT> Fmt = formatter<S, CharT>>
+  void print(S s, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<S, CharT>{})
+  {
+    fmt.prefix(os);
+    os << s.data();
     fmt.suffix(os);
   }
 
@@ -113,7 +125,7 @@ namespace cprint {
             Char CharT = char,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<R, CharT>>
-  requires (concepts::InputRange<R> || MultiDimArray<R>) && !CString<R>
+  requires (concepts::InputRange<R> || MultiDimArray<R>) && !CString<R> && !CharSpan<R>
   void print(R const& r, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<R, CharT>{})
   {
     using value_type = typename std::iterator_traits<decltype(std::cbegin(r))>::value_type;

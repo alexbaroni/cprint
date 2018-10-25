@@ -45,6 +45,12 @@ namespace cprint{
     (MonoDimArray<T> && Char<std::remove_all_extents_t<T>>) ||
       (std::is_pointer_v<T> && Char<std::remove_cv_t<std::remove_pointer_t<T>>>);
 
+  template <typename T>
+  concept bool CharSpan =
+    Char<typename T::element_type> &&
+      std::is_same_v<T, std::experimental::ranges::v1::ext::span<typename T::element_type, T::extent>>;
+
+
   template <typename F,
             typename CharT,
             typename Traits = std::char_traits<CharT>>

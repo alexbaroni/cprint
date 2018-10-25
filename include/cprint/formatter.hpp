@@ -49,6 +49,13 @@ namespace cprint {
     void suffix(std::basic_ostream<char>& os) const { os << "\""; }
   };
 
+  template<std::ptrdiff_t N>
+  struct formatter<std::experimental::ranges::v1::ext::span<char, N>, char> {
+    void prefix(std::basic_ostream<char>& os) const { os << "\""; }
+    void separator(std::basic_ostream<char>&) const {}
+    void suffix(std::basic_ostream<char>& os) const { os << "\""; }
+  };
+
   template<typename T1, typename T2>
   struct formatter<std::pair<T1, T2>, char> {
     void prefix(std::basic_ostream<char>& os) const { os << "("; }
@@ -134,6 +141,13 @@ namespace cprint {
     void prefix(std::basic_ostream<wchar_t>& os) const { os << L"\""; }
     void separator(std::basic_ostream<wchar_t>&) const {}
     void suffix(std::basic_ostream<wchar_t>& os) const { os << L"\""; }
+  };
+
+  template<std::ptrdiff_t N>
+  struct formatter<std::experimental::ranges::v1::ext::span<wchar_t, N>, wchar_t> {
+    void prefix(std::basic_ostream<wchar_t>& os) const { os << "\""; }
+    void separator(std::basic_ostream<wchar_t>&) const {}
+    void suffix(std::basic_ostream<wchar_t>& os) const { os << "\""; }
   };
 
   template<typename T1, typename T2>
