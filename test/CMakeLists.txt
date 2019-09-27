@@ -20,5 +20,6 @@ add_subdirectory(vector)
 add_subdirectory(string)
 add_subdirectory(span)
 add_subdirectory(pair)
+add_subdirectory(deque)
 
 #ParseAndAddCatchTests(cprint_test)
