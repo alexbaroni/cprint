@@ -27,6 +27,11 @@ TEST_CASE( "printing pair of streamable types on char stream", "[pair][char]" )
     print(p, os);
     REQUIRE(os.str() == "(1, \"Hello\")");
   }
+  SECTION("printing a pair with two string") {
+    std::pair p{"world"s, "Hello"s};
+    print(p, os);
+    REQUIRE(os.str() == "(\"world\", \"Hello\")");
+  }
   SECTION("printing a pair with a string_view") {
     std::pair p{1, "World"sv};
     print(p, os);
@@ -68,6 +73,11 @@ TEST_CASE( "printing pair of streamable types on wchar_t stream", "[pair][wchar_
     std::pair p{1, L"Hello"s};
     print(p, wos);
     REQUIRE(wos.str() == L"(1, \"Hello\")");
+  }
+  SECTION("printing a pair with two string") {
+    std::pair p{L"world"s, L"Hello"s};
+    print(p, wos);
+    REQUIRE(wos.str() == L"(\"world\", \"Hello\")");
   }
   SECTION("printing a pair with a string_view") {
     std::pair p{1, L"World"sv};

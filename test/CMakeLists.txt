@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(cprint_test)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 #configure directories
 set (CATCH_INCLUDE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/catch2")
@@ -21,5 +21,9 @@ add_subdirectory(string)
 add_subdirectory(span)
 add_subdirectory(pair)
 add_subdirectory(deque)
+add_subdirectory(forward_list)
+add_subdirectory(list)
+add_subdirectory(set)
+add_subdirectory(map)
 
 #ParseAndAddCatchTests(cprint_test)

@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.12)
 
 project(cprint)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options("-fconcepts;-ftemplate-backtrace-limit=0;-ftemplate-depth=2000")
 add_compile_options("-Wall;-Wextra;-pedantic-errors;-Werror;-march=native")

@@ -14,30 +14,37 @@
 
 namespace cprint {
   namespace concepts = std::experimental::ranges;
-  template <class T>
-  constexpr std::string_view type_name() {
+  template <typename T>
+  constexpr auto type_name()
+  {
+    std::string_view name, prefix, suffix;
 #ifdef __clang__
-    std::string_view p = __PRETTY_FUNCTION__;
-    return std::string_view(p.data() + 34, p.size() - 34 - 1);
+    name = __PRETTY_FUNCTION__;
+    prefix = "auto type_name() [T = ";
+    suffix = "]";
 #elif defined(__GNUC__)
-    std::string_view p = __PRETTY_FUNCTION__;
-#  if __cplusplus < 201402
-    return std::string_view(p.data() + 36, p.size() - 36 - 1);
-#  else
-    return std::string_view(p.data() + 49, p.find(';', 49) - 49);
-#  endif
+    name = __PRETTY_FUNCTION__;
+    prefix = "constexpr auto type_name() [with T = ";
+    suffix = "]";
 #elif defined(_MSC_VER)
-    std::string_view p = __FUNCSIG__;
-    return std::string_view(p.data() + 84, p.size() - 84 - 7);
+    name = __FUNCSIG__;
+    prefix = "auto __cdecl type_name<";
+    suffix = ">(void)";
 #endif
+    name.remove_prefix(prefix.size());
+    name.remove_suffix(suffix.size());
+    return name;
   }
+
+//  if constexpr(std::is_same_v<CharT, char>)
+//    os << std::endl << "---> " << type_name<decltype(s)>() << std::endl;
 
   template <typename T,
             Char CharT = char,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<T, CharT>>
   requires concepts::StreamInsertable<T, CharT, Traits> && !CString<T> && !Array<T>
-  void print(T const& t, std::basic_ostream<CharT, Traits>& os, [[maybe_unused]] Fmt fmt = formatter<T, CharT>{})
+  void print(T const& t, std::basic_ostream<CharT, Traits>& os, [[maybe_unused]] Fmt fmt = Fmt{})
   {
     os << t;
   }
@@ -46,7 +53,7 @@ namespace cprint {
             Char CharT = char,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<T, CharT>>
-  void print(T const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<T, CharT>{})
+  void print(T const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     os << t;
@@ -57,7 +64,7 @@ namespace cprint {
             Char CharT,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<S, CharT>>
-  void print(S s, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<S, CharT>{})
+  void print(S s, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     os << s.data();
@@ -68,8 +75,8 @@ namespace cprint {
             CharTraits Traits = std::char_traits<CharT>,
             typename Allocator = std::allocator<CharT>,
             Formatter<CharT> Fmt = formatter<std::basic_string<CharT, Traits, Allocator>, CharT>>
-  void print(std::basic_string<CharT, Traits, Allocator> const& s, std::basic_ostream<CharT, Traits>& os,
-             Fmt fmt = formatter<std::basic_string<CharT, Traits, Allocator>, CharT>{})
+  void print(std::basic_string<CharT, Traits, Allocator> const& s,
+             std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     os << s;
@@ -79,8 +86,8 @@ namespace cprint {
   template<Char CharT,
            CharTraits Traits = std::char_traits<CharT>,
            Formatter<CharT> Fmt = formatter<std::basic_string_view<CharT, Traits>, CharT>>
-  void print(std::basic_string_view<CharT, Traits> const& sv, std::basic_ostream<CharT, Traits>& os,
-             Fmt fmt = formatter<std::basic_string_view<CharT, Traits>, CharT>{})
+  void print(std::basic_string_view<CharT, Traits> const& sv,
+             std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     os << sv;
@@ -92,7 +99,7 @@ namespace cprint {
             Char CharT = char,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<std::pair<T1, T2>, CharT>>
-  void print(std::pair<T1, T2> const& p, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<std::pair<T1, T2>, CharT>{})
+  void print(std::pair<T1, T2> const& p, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     print(p.first, os, formatter<T1, CharT>{});
@@ -105,7 +112,7 @@ namespace cprint {
             Char CharT = char,
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<std::tuple<T...>, CharT>>
-  void print(std::tuple<T...> const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<std::tuple<T...>, CharT>{})
+  void print(std::tuple<T...> const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     fmt.prefix(os);
     if constexpr(sizeof...(T) > 0) {
@@ -122,14 +129,14 @@ namespace cprint {
             CharTraits Traits = std::char_traits<CharT>,
             Formatter<CharT> Fmt = formatter<R, CharT>>
   requires (concepts::InputRange<R> || MultiDimArray<R>) && !CString<R> && !CharSpan<R>
-  void print(R const& r, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<R, CharT>{})
+  void print(R const& r, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     using value_type = typename std::iterator_traits<decltype(std::cbegin(r))>::value_type;
     using formatter_type = formatter<value_type, CharT>;
 
     fmt.prefix(os);
     if (std::cbegin(r) != std::cend(r)) {
-      print(*std::cbegin(r), os, formatter_type {});
+      print(*std::cbegin(r), os, formatter_type{});
 
       std::for_each(std::next(std::cbegin(r)), std::cend(r),
         [&r, &os, &fmt](auto const& e) {
@@ -144,7 +151,7 @@ namespace cprint {
            Char CharT = char,
            CharTraits Traits = std::char_traits<CharT>,
            Formatter<CharT> Fmt = formatter<T, CharT>>
-  void print_line(T const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = formatter<T, CharT>{})
+  void print_line(T const& t, std::basic_ostream<CharT, Traits>& os, Fmt fmt = Fmt{})
   {
     print(t, os, fmt);
     os << std::endl;
